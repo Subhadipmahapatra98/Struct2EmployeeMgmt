@@ -76,13 +76,16 @@ public class User extends ActionSupport implements ApplicationAware, SessionAwar
             ArrayList stateList = LocationService.getAllStates(this.countryId);
             sessionMap.put("StateList", stateList);
             sessionMap.put("User", this);
+            result="STATELIST";
+            
 
         }
         
-         if ( this.countryId!=0 && this.stateId != 0 ) {
+         if (this.stateId != 0 ) {
             ArrayList districtList = LocationService.getAllDistricts(this.stateId);
             sessionMap.put("DistrictList", districtList);
             sessionMap.put("User", this);
+            result="DISTRICT";
         }
          
          if ( this.countryId!=0 && this.stateId != 0 && this.districtId!=0) 

@@ -43,9 +43,16 @@
         </action>  
         
         <action name="preSignUp" class="com.exavalu.models.User" method="doPreSignUp">
-            <result name="FAILURE">signup.jsp</result>
+            <result name="STATELIST">statelist.jsp</result>
+            <result name="DISTRICT">districtlist.jsp</result>
             <result name="SUCCESS">login.jsp</result>
+            <result name="FAILURE">signup.jsp</result>
+            
         </action>
         
+        <action name="FetchUrl" class="com.exavalu.models.Transcript" method="doFetchUrl">
+            <result name="SUCCESS">savinginfofromurl.jsp</result>
+            <result name="FAILURE">savinginfofromurl.jsp</result>
+        </action>
     </package>
 </struts>

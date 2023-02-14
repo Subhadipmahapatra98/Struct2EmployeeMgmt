@@ -6,11 +6,17 @@ package com.exavalu.services;
 
 import com.exavalu.models.User;
 import com.exavalu.utils.JDBCConnectionManager;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import org.json.*;  
 /**
  *
  * @author Avijit Chattopadhyay
@@ -33,8 +39,11 @@ public class LoginService {
         }
     }
     
-    public boolean doLogin(String emailAddress, String password)
+    public boolean doLogin(String emailAddress, String password) throws URISyntaxException, IOException, InterruptedException
     {
+            
+            
+            
         boolean success = false;
         
         String sql = "Select * from employeedb2.users where emailAddress=? and password=?";
@@ -58,14 +67,37 @@ public class LoginService {
             ex.printStackTrace();
         }
         
-        
+                try {
+	            String url = "https://jsonplaceholder.typicode.com/todos/1";
+	            URL obj = new URL(url);
+	            HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+	            BufferedReader read = new BufferedReader(new InputStreamReader(con.getInputStream()));
+	            String inputLine;
+	            StringBuffer response = new StringBuffer();
+	            while ((inputLine = read .readLine()) != null) {
+	                response.append(inputLine);
+	            } 
+	            System.out.println(response.toString());
+	            JSONObject obj_JSONObject = new JSONObject(response.toString());
+                    
+	            System.out.println("Result after Reading JSON Response");
+	            System.out.println("userId- "+obj_JSONObject.getString("userId"));
+	            System.out.println("id- "+obj_JSONObject.getString("id"));
+	            System.out.println("title- "+ obj_JSONObject.getString("title"));
+	            System.out.println("completed- "+ obj_JSONObject.getString("completed"));
+                    
+	        } catch (Exception e) {
+	            // TODO: handle exception
+	        }
         return success;
+        
+        
     }
     
      public boolean doSignUp(User user) {
         boolean result = false;
         boolean success=false;
-
+        
         Connection con = JDBCConnectionManager.getConnection();
 
         String sql = "INSERT INTO users(emailAddress,password,firstName,lastName,status,countryId,stateId,districtId)"

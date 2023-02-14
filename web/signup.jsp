@@ -2,6 +2,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <script src="https://code.jquery.com/jquery-3.6.3.js" integrity="sha256-nQLuAZGRRcILA+6dMBOvcRh5Pe310sBpanc6+QBmyVM=" crossorigin="anonymous"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
@@ -17,9 +18,18 @@
         <!-- Custom styles for this template -->
         <link href="css/signin.css" rel="stylesheet">
 <script>
-function val() {
-signupForm.submit();
-}
+         function fetchContent(selectedId, targetId) {
+                            $.ajax({
+                                url: 'preSignUp',
+                                data: {
+                                    [selectedId]: $("#" + selectedId).val()
+                                },
+                                success: function (responseText) {
+                                    $("#" + targetId).html(responseText);
+                                }
+                            });
+                        }
+
 </script>
     </head>
 
@@ -46,7 +56,7 @@ signupForm.submit();
                     <label for="firstName">Last Name</label>
                 </div>
                    <div class="form-floating">
-                    <select name="countryId" class="form-select" id="countryId" onchange="val()">
+                    <select name="countryId" class="form-select" id="countryId" onchange="fetchContent('countryId','stateId')">
                         <option value="0">Select a country</option>
                         <c:forEach var="country" items="${CountryList}">
                             <option value= ${country.getCountryId()}<c:if test="${country.getCountryId()==User.getCountryId()}"> selected </c:if>>  ${country.getCountryName()}  </option>
@@ -55,20 +65,14 @@ signupForm.submit();
                 </div>
 
                 <div class="form-floating">
-                    <select name="stateId" class="form-select" id="stateId" onchange="val()">
+                    <select name="stateId" class="form-select" id="stateId" onchange="fetchContent('stateId','districtId')">
                         <option value="0">Select a state</option>
-                      <c:forEach var="state" items="${StateList}">
-                            <option value= ${state.getStateId()}  <c:if test="${state.getStateId()==User.getStateId()}"> selected </c:if>>  ${state.getStateName()}  </option>
-                      </c:forEach>
+                      
                     </select>
                 </div>
                 <div class="form-floating">
-                    <select name="districtId" class="form-select" id="districtId" >
-                        <option value="0">Select a city</option>
-                        <c:forEach var="district" items="${DistrictList}">
-                            <option value= ${district.getDistrictId()} <c:if test="${district.getDistrictId()==User.getDistrictId()}"> selected </c:if>>  ${district.getDistrictName()}  </option>
-                      </c:forEach>
-                      
+                    <select name="districtId" class="form-select" id="districtId">
+                        <option value="0">Select a district</option>
                     </select>
                 </div>
 

@@ -133,21 +133,24 @@ public class Location extends ActionSupport implements ApplicationAware, Session
            sessionMap.put("CountryList", countryList);  
            
            
-         if(this.stateId!=0)
+       
+            
+         if(this.countryId !=0)
+          {
+            ArrayList stateList =  LocationService. getAllStates(this.countryId);
+             sessionMap.put("StateList",stateList );
+             sessionMap.put("User", this); 
+             result="STATELIST";
+           }
+         
+           if(this.stateId!=0)
         {
             ArrayList districtList =  LocationService. getAllDistricts(this.stateId);
             sessionMap.put("DistrictList", districtList);
             sessionMap.put("User", this); 
+            result="DISTLIST";
             
         }   
-            
-         if(this.countryId !=0)
-        {
-            ArrayList stateList =  LocationService. getAllStates(this.countryId);
-             sessionMap.put("StateList",stateList );
-             sessionMap.put("User", this); 
-             
-        }
 
         return result;
     }
